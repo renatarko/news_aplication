@@ -6,8 +6,23 @@ const findAllService = () => User.find(); // função do mongoose para buscar to
 
 const findByIdService = (id) => User.findById(id);
 
+const updateService = (
+  id,
+  name,
+  username,
+  email,
+  password,
+  avatar,
+  background
+) =>
+  User.findOneAndUpdate(
+    { _id: id }, //find one
+    { name, username, email, password, avatar, background } // and update
+  );
+
 module.exports = {
   createService,
   findAllService,
   findByIdService,
+  updateService,
 };
