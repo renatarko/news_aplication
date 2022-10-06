@@ -1,4 +1,4 @@
-const userService = require("../services/user.service");
+import userService from "../services/user.service.js";
 
 const create = async (req, res) => {
   try {
@@ -80,4 +80,4 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { create, findAll, findById, update }; // exportando a função para poder ser usado pela user.route
+export default { create, findAll, findById, update }; // exportando a função para poder ser usado pela user.route

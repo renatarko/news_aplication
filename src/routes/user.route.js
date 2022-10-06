@@ -1,11 +1,12 @@
-const route = require("express").Router(); // é a mesma coisa do app = express()
-const userController = require("../controllers/user.controllers"); // importando o arquivo que está a função de soma
+import express from "express"; // é a mesma coisa do app = express()
+import userController from "../controllers/user.controllers.js"; // importando o arquivo que está a função de soma
+import { validId, validUser } from "../middlewares/global.middlewares.js";
 
-const { validId, validUser } = require("../middlewares/global.middlewares");
+const route = express.Router();
 
 route.post("/", userController.create);
 route.get("/", userController.findAll);
 route.get("/:id", validId, validUser, userController.findById);
 route.patch("/:id", validId, validUser, userController.update);
 
-module.exports = route;
+export default route;
