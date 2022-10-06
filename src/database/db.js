@@ -4,13 +4,10 @@ const connectDatabase = () => {
   console.log("wait conecting to the database");
 
   mongoose
-    .connect(
-      "mongodb+srv://renatarko:9999@cluster0.wbx3xho.mongodb.net/?retryWrites=true&w=majority",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
-    )
+    .connect(process.env.MONGODB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.log(error));
 };
