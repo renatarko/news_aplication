@@ -1,1 +1,1 @@
-# Project News -> MERNE
+# Project News -> MERN Stack
