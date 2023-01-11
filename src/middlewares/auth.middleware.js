@@ -6,7 +6,6 @@ dotEnv.config();
 export const authMiddleware = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    console.log(authorization);
 
     if (!authorization) {
       res.send(401);
@@ -28,7 +27,6 @@ export const authMiddleware = (req, res, next) => {
       if (error) {
         return res.status(401).send({ message: "Token Invalid!" });
       }
-      console.log(decoded);
 
       const user = await userService.findByIdService(decoded.id);
 
