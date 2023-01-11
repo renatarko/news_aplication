@@ -11,7 +11,9 @@ const topNewsService = () => News.findOne().sort({_id: -1}).populate("user");
 const findByIdService = (id) => News.findById(id)
 
 const findBySearchService = (title) => News.find({
-    title: {$regex: `${title || ""}`, $options: "i"}
-}).sort({_id: -1}).populate("user")
+    title: {$regex: `${title || ""}`, $options: "i"} //expressão regular do mongoDB
+}).sort({_id: -1}).populate("user");
 
-export { createService, findAllService, countNews, topNewsService, findByIdService, findBySearchService };
+const byUserService = (id) => News.find({user: id}).sort({_id: -1}).populate("user");
+
+export { createService, findAllService, countNews, topNewsService, findByIdService, findBySearchService, byUserService };
