@@ -1,4 +1,4 @@
-import { countNews, createService, findAllService, topNewsServices } from "../services/news.service.js";
+import { countNews, createService, findAllService, topNewsService, findByIdService } from "../services/news.service.js";
 
 const create = async (req, res) => {
   try {
@@ -82,7 +82,7 @@ const findAll = async (req, res) => {
 
 const topNews = async (req, res) => {
   try {
-    const news = await topNewsServices()
+    const news = await topNewsService()
 
     if (!news) {
       return res.send({message: "There is no registered post"})
@@ -107,4 +107,28 @@ const topNews = async (req, res) => {
   }
 }
 
-export { create, findAll, topNews };
+const findById = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const news = await findByIdService(id)
+
+    return res.send({
+      news: {
+        id: news._id,
+        title: news.title,
+        text: news.text,
+        banner: news.banner,
+        likes: news.likes,
+        comments: news.comments,
+        name: news.user.name,
+        userName: news.user.username,
+        userAavatar: news.user.avatar,
+      }
+    })
+  } catch(error) {
+    res.status(500).send({ message: error.message });
+  }
+}
+
+export { create, findAll, topNews, findById };
