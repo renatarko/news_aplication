@@ -1,4 +1,4 @@
-import { countNews, createService, findAllService, topNewsService, findByIdService, findBySearchService, byUserService, upDateService } from "../services/news.service.js";
+import { countNews, createService, findAllService, topNewsService, findByIdService, findBySearchService, byUserService, upDateService, eraseService } from "../services/news.service.js";
 
 const create = async (req, res) => {
   try {
@@ -85,7 +85,7 @@ const topNews = async (req, res) => {
     const news = await topNewsService()
 
     if (!news) {
-      return res.send({message: "There is no registered post"})
+      return res.send({message: "There is no registered news"})
     }
 
     res.send({
@@ -200,11 +200,28 @@ const upDate = async (req, res) => {
 
     await upDateService(id, title, text, banner)
 
-    return res.send({message: "Post successfully updated!"})
+    return res.send({message: "News successfully updated!"})
 
   } catch(error) {
     res.status(500).send({ message: error.message });
   }
 }
 
-export { create, findAll, topNews, findById, findBySearch, byUser, upDate };
+const erase = async (req, res) => {
+  try {
+    const {id} = req.params
+
+    const news = await findByIdService(id)
+
+    if(news.user._id != req.userId) {
+      res.status(500).send({message: "You didn't delete this news"})
+    }
+
+    await eraseService(id)
+    return res.send({message: "news deleted successfully"})
+  } catch(error) {
+    res.status(500).send({ message: error.message });
+  }
+}
+
+export { create, findAll, topNews, findById, findBySearch, byUser, upDate, erase };
