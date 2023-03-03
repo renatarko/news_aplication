@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js"; // importando todas as rotas
 import authRoute from "./routes/auth.route.js";
 import newsRoute from "./routes/news.route.js";
-import swaggerRoute from "./routes/swagger.route.js";
+import swaggerRoute from "./routes/swagger.route.cjs";
 
 dotenv.config();
 
