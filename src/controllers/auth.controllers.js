@@ -17,10 +17,21 @@ const login = async (req, res) => {
     }
     console.log(passwordIsValid);
 
+    delete user.password;
+
+    const _user = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      avatar: user.avatar,
+      background: user.background,
+    };
+
     //guardando a sessão do usuário
     const token = generationToken(user.id);
 
-    res.send({ token });
+    res.send({ token, user: _user });
   } catch (error) {
     res.status(500).send(error.message);
   }
