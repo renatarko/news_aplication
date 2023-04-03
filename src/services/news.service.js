@@ -11,12 +11,21 @@ const topNewsService = () => News.findOne().sort({ _id: -1 }).populate("user");
 
 const findByIdService = (id) => News.findById(id);
 
-const findBySearchService = (title) =>
+const findBySearchService = (title, limit, offset) =>
   News.find({
     title: { $regex: `${title || ""}`, $options: "i" }, //expressão regular do mongoDB
   })
     .sort({ _id: -1 })
+    .skip(offset)
+    .limit(limit)
     .populate("user");
+
+const countNewsFilter = (title) =>
+  News.find({
+    title: { $regex: `${title || ""}`, $options: "i" }, //expressão regular do mongoDB
+  }).countDocuments();
+
+// console.log(countNewsFilter());
 
 const byUserService = (id) =>
   News.find({ user: id }).sort({ _id: -1 }).populate("user");
@@ -72,4 +81,5 @@ export {
   deleteLikesNewsService,
   addCommentService,
   deleteCommentService,
+  countNewsFilter,
 };

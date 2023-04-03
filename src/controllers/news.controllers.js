@@ -12,6 +12,7 @@ import {
   deleteLikesNewsService,
   addCommentService,
   deleteCommentService,
+  countNewsFilter,
 } from "../services/news.service.js";
 
 const create = async (req, res) => {
@@ -34,7 +35,7 @@ const create = async (req, res) => {
       text,
       banner,
     });
-  } catch {
+  } catch (error) {
     res.status(500).send({ message: error.message });
   }
 };
@@ -148,17 +149,30 @@ const findById = async (req, res) => {
 
 const findBySearch = async (req, res) => {
   try {
-    const { title } = req.query;
+    let { title, limit, offset } = req.query;
 
-    const news = await findBySearchService(title);
+    limit = Number(limit);
+    offset = Number(offset);
+
+    if (!limit) {
+      limit = 5;
+    }
+
+    if (!offset) {
+      offset = 0;
+    }
+
+    const total = await countNewsFilter(title);
+    const news = await findBySearchService(title, limit, offset);
 
     if (news.length === 0) {
-      return res
-        .status(400)
-        .send({ menssage: "There is no news with this title" });
+      return res.status(400).send({ results: [] });
     }
 
     res.send({
+      total,
+      limit,
+      offset,
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
