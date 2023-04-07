@@ -165,11 +165,23 @@ const findBySearch = async (req, res) => {
     const total = await countNewsFilter(title);
     const news = await findBySearchService(title, limit, offset);
 
+    const currentUrl = req.baseUrl;
+
+    const next = offset - limit;
+    const nextUrl =
+      next < total ? `${currentUrl}?limit=${limit}&offset=${offset}` : null;
+
+    const previous = offset - limit < 0 ? null : offset - limit;
+    const previousUrl =
+      previous != null ? `${currentUrl}?limit=${limit}&offset=${offset}` : null;
+
     if (news.length === 0) {
       return res.status(400).send({ results: [] });
     }
 
     res.send({
+      nextUrl,
+      previousUrl,
       total,
       limit,
       offset,
