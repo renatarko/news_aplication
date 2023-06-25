@@ -4,7 +4,7 @@ const create = async (req, res) => {
   try {
     const { name, username, email, password, avatar, background } = req.body;
 
-    if (!name || !username || !email || !password || !avatar || !background) {
+    if (!name || !username || !email || !password) {
       res.status(400).send({ message: "Submit all fields for registration" });
     }
 
