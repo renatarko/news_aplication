@@ -113,13 +113,14 @@ const topNews = async (req, res) => {
       news: {
         id: news._id,
         title: news.title,
-        text: item.text.substring(0, 115).concat("..."),
+        text: news.text.substring(0, 115).concat("..."),
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
         name: news.user.name,
         userName: news.user.username,
         userAvatar: news.user.avatar,
+        creatAt: news.createdAt,
       },
     });
   } catch (error) {
@@ -137,7 +138,7 @@ const findById = async (req, res) => {
       news: {
         id: news._id,
         title: news.title,
-        text: item.text.substring(0, 115).concat("..."),
+        text: news.text.substring(0, 115).concat("..."),
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
