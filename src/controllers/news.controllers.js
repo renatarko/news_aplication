@@ -29,11 +29,14 @@ const create = async (req, res) => {
       user: { _id: req.userId },
     });
 
+    const createdAt = Date.now();
+
     res.status(200).send({
       message: "News created",
       title,
       text,
       banner,
+      createdAt,
     });
   } catch (error) {
     res.status(500).send({ message: error.message });
@@ -89,7 +92,8 @@ const findAll = async (req, res) => {
         comments: item.comments,
         name: item.user.name,
         userName: item.user.username,
-        userAavatar: item.user.avatar,
+        userAvatar: item.user.avatar,
+        creatAt: news.createdAt,
       })),
     });
   } catch (error) {
@@ -115,7 +119,7 @@ const topNews = async (req, res) => {
         comments: news.comments,
         name: news.user.name,
         userName: news.user.username,
-        userAavatar: news.user.avatar,
+        userAvatar: news.user.avatar,
       },
     });
   } catch (error) {
@@ -128,6 +132,7 @@ const findById = async (req, res) => {
     const { id } = req.params;
 
     const news = await findByIdService(id);
+    console.log(news);
 
     return res.send({
       news: {
@@ -139,7 +144,8 @@ const findById = async (req, res) => {
         comments: news.comments,
         name: news.user.name,
         userName: news.user.username,
-        userAavatar: news.user.avatar,
+        userAvatar: news.user.avatar,
+        creatAt: news.createdAt,
       },
     });
   } catch (error) {
@@ -194,7 +200,8 @@ const findBySearch = async (req, res) => {
         comments: item.comments,
         name: item.user.name,
         userName: item.user.username,
-        userAavatar: item.user.avatar,
+        userAvatar: item.user.avatar,
+        creatAt: news.createdAt,
       })),
     });
   } catch (error) {
@@ -217,7 +224,8 @@ const byUser = async (req, res) => {
         comments: item.comments,
         name: item.user.name,
         userName: item.user.username,
-        userAavatar: item.user.avatar,
+        userAvatar: item.user.avatar,
+        creatAt: news.createdAt,
       })),
     });
   } catch (error) {
