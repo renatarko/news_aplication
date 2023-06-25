@@ -1,18 +1,18 @@
 import {
+  addCommentService,
+  byUserService,
   countNews,
+  countNewsFilter,
   createService,
+  deleteCommentService,
+  deleteLikesNewsService,
+  eraseService,
   findAllService,
-  topNewsService,
   findByIdService,
   findBySearchService,
-  byUserService,
-  upDateService,
-  eraseService,
   likesNewsService,
-  deleteLikesNewsService,
-  addCommentService,
-  deleteCommentService,
-  countNewsFilter,
+  topNewsService,
+  upDateService,
 } from "../services/news.service.js";
 
 const create = async (req, res) => {
@@ -86,7 +86,7 @@ const findAll = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text,
+        text: item.text.substring(0, 115).concat("..."),
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -113,7 +113,7 @@ const topNews = async (req, res) => {
       news: {
         id: news._id,
         title: news.title,
-        text: news.text,
+        text: item.text.substring(0, 115).concat("..."),
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
@@ -130,15 +130,14 @@ const topNews = async (req, res) => {
 const findById = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log({ id });
 
     const news = await findByIdService(id);
-    console.log(news);
-
     return res.send({
       news: {
         id: news._id,
         title: news.title,
-        text: news.text,
+        text: item.text.substring(0, 115).concat("..."),
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
@@ -194,7 +193,7 @@ const findBySearch = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text,
+        text: item.text.substring(0, 115).concat("..."),
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -218,7 +217,7 @@ const byUser = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text,
+        text: item.text.substring(0, 115).concat("..."),
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -341,15 +340,15 @@ const deleteComment = async (req, res) => {
 };
 
 export {
+  addComment,
+  byUser,
   create,
+  deleteComment,
+  erase,
   findAll,
-  topNews,
   findById,
   findBySearch,
-  byUser,
-  upDate,
-  erase,
   likesNews,
-  addComment,
-  deleteComment,
+  topNews,
+  upDate,
 };
