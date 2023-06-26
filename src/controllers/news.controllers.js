@@ -161,7 +161,7 @@ const findBySearch = async (req, res) => {
     offset = Number(offset);
 
     if (!limit) {
-      limit = 5;
+      limit = 0;
     }
 
     if (!offset) {
