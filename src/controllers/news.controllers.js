@@ -304,9 +304,9 @@ const addComment = async (req, res) => {
     }
 
     await addCommentService(id, userId, comment);
-
+    const createdAt = new Date();
     res.send({
-      commentCreated: { id, comment, userId },
+      commentCreated: { id, comment, userId, createdAt },
       message: "Comments done successfully",
     });
   } catch (error) {
