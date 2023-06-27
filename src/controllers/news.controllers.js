@@ -86,7 +86,7 @@ const findAll = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text.substring(0, 115).concat("..."),
+        text: item.text?.substring(0, 115).concat("..."),
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -113,7 +113,7 @@ const topNews = async (req, res) => {
       news: {
         id: news._id,
         title: news.title,
-        text: news.text.substring(0, 115).concat("..."),
+        text: news.text?.substring(0, 115).concat("..."),
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
@@ -138,7 +138,7 @@ const findById = async (req, res) => {
       news: {
         id: news._id,
         title: news.title,
-        text: news.text.substring(0, 115).concat("..."),
+        text: news.text?.substring(0, 115).concat("..."),
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
@@ -194,7 +194,7 @@ const findBySearch = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text.substring(0, 115).concat("..."),
+        text: item.text?.substring(0, 115).concat("..."),
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -218,7 +218,7 @@ const byUser = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text.substring(0, 115).concat("..."),
+        text: item.text?.substring(0, 115).concat("..."),
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -303,10 +303,12 @@ const addComment = async (req, res) => {
       return res.status(400).send({ message: "write a message to comment" });
     }
 
-    const response = await addCommentService(id, userId, comment);
-    const commentCreated = response.comments[response.comments.length - 1];
+    await addCommentService(id, userId, comment);
 
-    res.send({ commentCreated, message: "Comments done successfully" });
+    res.send({
+      commentCreated: { id, comment, userId },
+      message: "Comments done successfully",
+    });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
