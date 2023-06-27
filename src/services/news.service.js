@@ -55,7 +55,12 @@ const addCommentService = (idNews, userId, comment) => {
     { _id: idNews },
     {
       $push: {
-        comments: { idComment, userId, comment, createdAt: new Date() },
+        comments: {
+          idComment,
+          userId,
+          comment,
+          createdAt: new Date(),
+        },
       },
     }
   );
