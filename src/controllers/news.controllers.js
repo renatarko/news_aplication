@@ -15,6 +15,9 @@ import {
   upDateService,
 } from "../services/news.service.js";
 
+import findUserById from "../controllers/user.controllers.js";
+import User from "../models/User.js";
+
 const create = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
@@ -304,9 +307,11 @@ const addComment = async (req, res) => {
     }
 
     await addCommentService(id, userId, comment);
+    const { name, avatar } = await User.findById(userId);
     const createdAt = new Date();
+
     res.send({
-      commentCreated: { id, comment, userId, createdAt },
+      commentCreated: { id, comment, createdAt, userId, name, avatar },
       message: "Comments done successfully",
     });
   } catch (error) {

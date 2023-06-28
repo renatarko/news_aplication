@@ -44,7 +44,7 @@ const findAll = async (req, res) => {
   }
 };
 
-const findById = async (req, res) => {
+const findUserById = async (req, res) => {
   try {
     const user = req.user;
 
@@ -80,4 +80,4 @@ const update = async (req, res) => {
   }
 };
 
-export default { create, findAll, findById, update }; // exportando a função para poder ser usado pela user.route
+export default { create, findAll, findUserById, update }; // exportando a função para poder ser usado pela user.route

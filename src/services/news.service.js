@@ -1,4 +1,5 @@
 import News from "../models/News.js";
+import User from "../models/User.js";
 
 const createService = (body) => News.create(body);
 
@@ -48,8 +49,10 @@ const likesNewsService = (idNews, userId) =>
 const deleteLikesNewsService = (idNews, userId) =>
   News.findOneAndUpdate({ _id: idNews }, { $pull: { likes: { userId } } });
 
-const addCommentService = (idNews, userId, comment) => {
+const addCommentService = async (idNews, userId, comment) => {
   const idComment = Math.floor(Date.now() * Math.random()).toString(36);
+
+  const { name, avatar } = await User.findOne({ _id: userId });
 
   return News.findOneAndUpdate(
     { _id: idNews },
@@ -58,6 +61,8 @@ const addCommentService = (idNews, userId, comment) => {
         comments: {
           idComment,
           userId,
+          name,
+          avatar,
           comment,
           createdAt: new Date(),
         },
