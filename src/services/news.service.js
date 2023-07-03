@@ -1,7 +1,9 @@
 import News from "../models/News.js";
 import User from "../models/User.js";
 
-const createService = (body) => News.create(body);
+const createNewsService = async (body) => {
+  return await News.create(body);
+};
 
 const findAllService = (limit, offset) =>
   News.find().sort({ _id: -1 }).skip(offset).limit(limit).populate("user");
@@ -54,7 +56,7 @@ const addCommentService = async (idNews, userId, comment) => {
 
   const { name, avatar } = await User.findOne({ _id: userId });
 
-  return News.findOneAndUpdate(
+  await News.findOneAndUpdate(
     { _id: idNews },
     {
       $push: {
@@ -69,6 +71,7 @@ const addCommentService = async (idNews, userId, comment) => {
       },
     }
   );
+  return News.findOne({ _id: idNews });
 };
 
 const deleteCommentService = (idNews, userId, idComment) =>
@@ -78,7 +81,7 @@ const deleteCommentService = (idNews, userId, idComment) =>
   );
 
 export {
-  createService,
+  createNewsService,
   findAllService,
   countNews,
   topNewsService,

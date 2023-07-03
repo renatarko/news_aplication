@@ -3,7 +3,7 @@ import {
   byUserService,
   countNews,
   countNewsFilter,
-  createService,
+  createNewsService,
   deleteCommentService,
   deleteLikesNewsService,
   eraseService,
@@ -15,9 +15,6 @@ import {
   upDateService,
 } from "../services/news.service.js";
 
-import findUserById from "../controllers/user.controllers.js";
-import User from "../models/User.js";
-
 const create = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
@@ -25,14 +22,17 @@ const create = async (req, res) => {
       res.status(400).send({ message: "Submit all fields for registration" });
     }
 
-    await createService({
-      title,
-      text,
-      banner,
-      user: { _id: req.userId },
-    });
-
-    const createdAt = Date.now();
+    const createdAt = new Date();
+    await createNewsService(
+      {
+        title,
+        text,
+        banner,
+        createdAt,
+        user: { _id: req.userId },
+      },
+      createdAt
+    );
 
     res.status(200).send({
       message: "News created",
@@ -96,7 +96,7 @@ const findAll = async (req, res) => {
         name: item.user.name,
         userName: item.user.username,
         userAvatar: item.user.avatar,
-        creatAt: news.createdAt,
+        creatAt: item.createdAt,
       })),
     });
   } catch (error) {
@@ -204,7 +204,7 @@ const findBySearch = async (req, res) => {
         name: item.user.name,
         userName: item.user.username,
         userAvatar: item.user.avatar,
-        creatAt: news.createdAt,
+        creatAt: item.createdAt,
       })),
     });
   } catch (error) {
@@ -228,7 +228,7 @@ const byUser = async (req, res) => {
         name: item.user.name,
         userName: item.user.username,
         userAvatar: item.user.avatar,
-        creatAt: news.createdAt,
+        creatAt: item.createdAt,
       })),
     });
   } catch (error) {
@@ -306,14 +306,13 @@ const addComment = async (req, res) => {
       return res.status(400).send({ message: "write a message to comment" });
     }
 
-    await addCommentService(id, userId, comment);
-    const { name, avatar } = await User.findById(userId);
-    const createdAt = new Date();
-
+    const newsupdated = await addCommentService(id, userId, comment);
+ 
     res.send({
-      commentCreated: { id, comment, createdAt, userId, name, avatar },
+      commentCreated: newsupdated.comments.at(-1),
       message: "Comments done successfully",
     });
+ 
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
