@@ -287,10 +287,13 @@ const likesNews = async (req, res) => {
 
     if (!newsLiked) {
       await deleteLikesNewsService(id, userId);
-      return res.status(200).send({ message: "Like successfully removed" });
+
+      return res
+        .status(200)
+        .send({ userId, message: "Like successfully removed" });
     }
 
-    res.send({ message: "Like done successfully" });
+    res.send({ userId, message: "Like done successfully" });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
@@ -307,12 +310,11 @@ const addComment = async (req, res) => {
     }
 
     const newsupdated = await addCommentService(id, userId, comment);
- 
+
     res.send({
       commentCreated: newsupdated.comments.at(-1),
       message: "Comments done successfully",
     });
- 
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
