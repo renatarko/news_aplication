@@ -52,28 +52,32 @@ const deleteLikesNewsService = (idNews, userId) =>
   News.findOneAndUpdate({ _id: idNews }, { $pull: { likes: { userId } } });
 
 const addCommentService = async (idNews, userId, comment) => {
-  const idComment = Math.floor(Date.now() * Math.random()).toString(36);
+  try {
+    const idComment = Math.floor(Date.now() * Math.random()).toString(36);
 
-  const { name, avatar } = await User.findOne({ _id: userId });
+    const { name, avatar } = await User.findOne({ _id: userId });
 
-  await News.findOneAndUpdate(
-    {
-      _id: idNews,
-    },
-    {
-      $push: {
-        comments: {
-          idComment,
-          userId,
-          name,
-          avatar,
-          comment,
-          createdAt: new Date(),
-        },
+    await News.findOneAndUpdate(
+      {
+        _id: idNews,
       },
-    }
-  );
-  return News.findOne({ _id: idNews });
+      {
+        $push: {
+          comments: {
+            idComment,
+            userId,
+            name,
+            avatar,
+            comment,
+            createdAt: new Date(),
+          },
+        },
+      }
+    );
+    return News.findOne({ _id: idNews });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const deleteCommentService = (idNews, userId, idComment) =>
