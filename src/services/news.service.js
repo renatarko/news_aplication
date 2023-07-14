@@ -57,7 +57,9 @@ const addCommentService = async (idNews, userId, comment) => {
   const { name, avatar } = await User.findOne({ _id: userId });
 
   await News.findOneAndUpdate(
-    { _id: idNews },
+    {
+      _id: idNews,
+    },
     {
       $push: {
         comments: {
@@ -81,18 +83,18 @@ const deleteCommentService = (idNews, userId, idComment) =>
   );
 
 export {
-  createNewsService,
-  findAllService,
+  addCommentService,
+  byUserService,
   countNews,
-  topNewsService,
+  countNewsFilter,
+  createNewsService,
+  deleteCommentService,
+  deleteLikesNewsService,
+  eraseService,
+  findAllService,
   findByIdService,
   findBySearchService,
-  byUserService,
-  upDateService,
-  eraseService,
   likesNewsService,
-  deleteLikesNewsService,
-  addCommentService,
-  deleteCommentService,
-  countNewsFilter,
+  topNewsService,
+  upDateService,
 };

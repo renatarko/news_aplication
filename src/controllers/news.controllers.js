@@ -309,10 +309,10 @@ const addComment = async (req, res) => {
       return res.status(400).send({ message: "write a message to comment" });
     }
 
-    const newsupdated = await addCommentService(id, userId, comment);
+    const newsUpdated = await addCommentService(id, userId, comment);
 
     res.send({
-      commentCreated: newsupdated.comments.at(-1),
+      commentCreated: newsUpdated.comments.at(-1),
       message: "Comments done successfully",
     });
   } catch (error) {
