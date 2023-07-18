@@ -18,8 +18,10 @@ import {
 const create = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
-    if (!title || !text || !banner) {
-      res.status(400).send({ message: "Submit all fields for registration" });
+    if (!title || !text) {
+      res
+        .status(400)
+        .send({ message: "Submit title and text for registration" });
     }
 
     const createdAt = new Date();
