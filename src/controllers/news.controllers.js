@@ -91,7 +91,7 @@ const findAll = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text?.substring(0, 115).concat("..."),
+        text: item.text,
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -118,7 +118,7 @@ const topNews = async (req, res) => {
       news: {
         id: news._id,
         title: news.title,
-        text: news.text?.substring(0, 115).concat("..."),
+        text: news.text,
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
@@ -143,7 +143,7 @@ const findById = async (req, res) => {
       news: {
         id: news._id,
         title: news.title,
-        text: news.text?.substring(0, 115).concat("..."),
+        text: news.text,
         banner: news.banner,
         likes: news.likes,
         comments: news.comments,
@@ -199,7 +199,7 @@ const findBySearch = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text?.substring(0, 115).concat("..."),
+        text: item.text,
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
@@ -223,7 +223,7 @@ const byUser = async (req, res) => {
       results: news.map((item) => ({
         id: item._id,
         title: item.title,
-        text: item.text?.substring(0, 115).concat("..."),
+        text: item.text,
         banner: item.banner,
         likes: item.likes,
         comments: item.comments,
