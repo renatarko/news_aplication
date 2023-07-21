@@ -1,10 +1,14 @@
-import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 const loginService = (email) =>
   User.findOne({ email: email }).select("+password");
 
-const generationToken = (id) =>
-  jwt.sign({ id: id }, process.env.SECRET_JWT, { expiresIn: 86400 });
+const expiresInThreeDays = 3 * 24 * 60 * 60; // 3 dias
 
-export { loginService, generationToken };
+const generationToken = (id) =>
+  jwt.sign({ id: id }, process.env.SECRET_JWT, {
+    expiresIn: expiresInThreeDays,
+  });
+
+export { generationToken, loginService };
