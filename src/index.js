@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: ["https://breaknews-app.vercel.app/", "http://localhost:5173/"],
+    origin: ["https://breaknews-app.vercel.app/", "http://localhost:5173"],
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
   })
 );
